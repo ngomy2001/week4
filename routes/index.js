@@ -2,10 +2,6 @@ var express = require('express');
 const userModel = require('../models/user');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.render('login');
-});
 router.post('/login', async function (req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
@@ -24,5 +20,9 @@ router.post('/login', async function (req, res, next) {
 });
 router.get('/index', function (req, res, next) {
   res.render('index');
+});
+/* GET home page. */
+router.get('/', function (req, res, next) {
+  res.render('login');
 });
 module.exports = router;
