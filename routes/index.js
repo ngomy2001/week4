@@ -1,7 +1,9 @@
 var express = require('express');
 const userModel = require('../models/user');
 var router = express.Router();
+var faker = require('faker');
 
+//Login
 router.post('/login', async function (req, res, next) {
   const username = req.body.username;
   const password = req.body.password;
@@ -11,18 +13,27 @@ router.post('/login', async function (req, res, next) {
   });
   if (!user) {
     console.log('Incorrect username or password');
-    res.redirect('/login');
+    res.redirect('/');
   } else {
-    console.log(username);
-    console.log(password);
+    req.session.user = user;
     res.redirect('/index');
   }
 });
-router.get('/index', function (req, res, next) {
-  res.render('index');
+
+//Logout
+router.get('/logout', function (req, res, next) {
+  req.session.destroy(function (err) {
+    // cannot access session here
+    res.redirect('/');
+  });
 });
+
 /* GET home page. */
 router.get('/', function (req, res, next) {
   res.render('login');
+});
+
+router.get('/index', function (req, res, next) {
+  res.render('index');
 });
 module.exports = router;
